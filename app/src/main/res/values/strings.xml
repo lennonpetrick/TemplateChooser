@@ -1,3 +1,8 @@
 <resources>
-    <string name="app_name">TemplateChooser</string>
+    <string name="app_name">Template chooser</string>
+
+    <string name="error_default">An error occurred :(</string>
+    <string name="progress_please_wait">please wait…</string>
+
+    <string name="template_chosen">The template %s with color %s was chosen</string>
 </resources>
