@@ -6,6 +6,6 @@
 
     <color name="text_white">#B4FFFFFF</color>
 
-    <color name="variations_background">#FCFCFC</color>
+    <color name="variations_background">#FFFFFF</color>
     <color name="preview_background">#F0F0F0</color>
 </resources>

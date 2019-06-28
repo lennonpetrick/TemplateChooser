@@ -1,13 +1,12 @@
 package com.test.templatechooser.presentation.adapter;
 
-import android.content.res.ColorStateList;
-import android.graphics.Color;
 import android.view.View;
 
 import androidx.annotation.NonNull;
 
 import com.test.templatechooser.R;
-import com.test.templatechooser.models.Template;
+import com.test.templatechooser.domain.models.Template;
+import com.test.templatechooser.utils.ColorUtils;
 
 import butterknife.BindView;
 
@@ -46,11 +45,8 @@ public class VariationsAdapter
 
         private void bind(Template template) {
             mView.setSelected(template.getId() == mCurrentTemplate.getId());
-            mView.setBackgroundTintList(
-                    ColorStateList.valueOf(
-                            Color.parseColor(template.getColor())
-                    )
-            );
+            mView.setBackgroundTintList(ColorUtils
+                    .parseToColorStateList(template.getColor()));
         }
     }
 

@@ -2,7 +2,7 @@ package com.test.templatechooser.presentation;
 
 import android.os.Parcelable;
 
-import com.test.templatechooser.models.Template;
+import com.test.templatechooser.domain.models.Template;
 
 import java.util.List;
 

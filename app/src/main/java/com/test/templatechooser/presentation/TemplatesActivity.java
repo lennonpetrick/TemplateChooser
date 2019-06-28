@@ -1,7 +1,6 @@
 package com.test.templatechooser.presentation;
 
 import android.app.ProgressDialog;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.widget.Toast;
@@ -13,9 +12,10 @@ import androidx.recyclerview.widget.PagerSnapHelper;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.test.templatechooser.R;
-import com.test.templatechooser.models.Template;
+import com.test.templatechooser.domain.models.Template;
 import com.test.templatechooser.presentation.adapter.TemplatesAdapter;
 import com.test.templatechooser.presentation.decoration.TemplatesDecoration;
+import com.test.templatechooser.utils.ColorUtils;
 
 import java.util.List;
 import java.util.Locale;
@@ -109,7 +109,7 @@ public class TemplatesActivity extends AppCompatActivity
 
     @Override
     public void onTemplateChanged(Template template) {
-        final int color = Color.parseColor(template.getColor());
+        final int color = ColorUtils.parseColor(template.getColor());
         mRvTemplates.setBackgroundColor(color);
         getWindow().setStatusBarColor(color);
     }

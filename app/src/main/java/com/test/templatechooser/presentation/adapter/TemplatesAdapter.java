@@ -11,7 +11,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.squareup.picasso.Picasso;
 import com.test.templatechooser.R;
-import com.test.templatechooser.models.Template;
+import com.test.templatechooser.domain.models.Template;
 
 import java.util.List;
 

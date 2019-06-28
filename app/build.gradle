@@ -10,7 +10,7 @@ android {
         versionName "1.0"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
 
-        buildConfigField "String", "API_URL", "\"https://api.dmp.jimdo-server.com/api/\""
+        buildConfigField "String", "API_URL", "\"https://api.dmp.jimdo-server.com/\""
     }
     buildTypes {
         release {
@@ -29,6 +29,7 @@ dependencies {
     implementation "com.google.android.material:material:$material_version"
     implementation "androidx.viewpager2:viewpager2:$viewpager2_version"
     implementation "androidx.constraintlayout:constraintlayout:$constraint_layout_version"
+    implementation "org.apache.commons:commons-text:$apache_version"
     implementation "com.jakewharton:butterknife:$butterknife_version"
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
     annotationProcessor "com.jakewharton:butterknife-compiler:$butterknife_version"

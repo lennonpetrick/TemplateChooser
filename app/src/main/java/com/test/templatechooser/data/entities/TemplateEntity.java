@@ -1,4 +1,4 @@
-package com.test.templatechooser.data;
+package com.test.templatechooser.data.entities;
 
 import java.util.List;
 

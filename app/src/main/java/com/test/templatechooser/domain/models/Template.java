@@ -1,4 +1,4 @@
-package com.test.templatechooser.models;
+package com.test.templatechooser.domain.models;
 
 import android.os.Parcel;
 import android.os.Parcelable;

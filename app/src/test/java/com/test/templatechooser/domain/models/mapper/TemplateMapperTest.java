@@ -1,9 +1,9 @@
-package com.test.templatechooser.models.mapper;
+package com.test.templatechooser.domain.models.mapper;
 
 import com.test.templatechooser.BaseTest;
-import com.test.templatechooser.data.TemplateEntity;
-import com.test.templatechooser.data.VariationEntity;
-import com.test.templatechooser.models.Template;
+import com.test.templatechooser.data.entities.TemplateEntity;
+import com.test.templatechooser.data.entities.VariationEntity;
+import com.test.templatechooser.domain.models.Template;
 
 import org.junit.Test;
 
