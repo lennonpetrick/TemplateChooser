@@ -1,4 +1,4 @@
-package com.test.templatechooser.presentation;
+package com.test.templatechooser.presentation.templates;
 
 import android.app.ProgressDialog;
 import android.os.Bundle;
@@ -7,16 +7,18 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.PagerSnapHelper;
-import androidx.recyclerview.widget.RecyclerView;
+import androidx.fragment.app.Fragment;
+import androidx.viewpager.widget.ViewPager;
 
 import com.test.templatechooser.R;
 import com.test.templatechooser.domain.models.Template;
-import com.test.templatechooser.presentation.adapter.TemplatesAdapter;
-import com.test.templatechooser.presentation.decoration.TemplatesDecoration;
+import com.test.templatechooser.presentation.base.BaseContract;
+import com.test.templatechooser.presentation.templates.adapter.ViewPagerAdapter;
+import com.test.templatechooser.presentation.base.FragmentLifecycle;
+import com.test.templatechooser.presentation.templateview.TemplateViewFragment;
 import com.test.templatechooser.utils.ColorUtils;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
@@ -27,14 +29,13 @@ import butterknife.ButterKnife;
 import dagger.android.AndroidInjection;
 
 public class TemplatesActivity extends AppCompatActivity
-        implements TemplatesContract.View, TemplatesAdapter.OnTemplateListener {
+        implements TemplatesContract.View, TemplateViewFragment.OnTemplateListener {
 
     private static final String PRESENTER_STATE = "presenter_state";
 
-    @Inject
-    public TemplatesContract.Presenter mPresenter;
+    @Inject TemplatesContract.Presenter mPresenter;
 
-    @BindView(R.id.rvTemplates) RecyclerView mRvTemplates;
+    @BindView(R.id.templatesPager) ViewPager mTemplatesPager;
 
     private ProgressDialog mDialog;
 
@@ -44,20 +45,20 @@ public class TemplatesActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_templates);
         ButterKnife.bind(this);
-        setUpRecyclerView();
+        setUpViewPager();
 
         if (savedInstanceState != null) {
             restoreViewState(savedInstanceState);
         }
 
         mPresenter.setView(this);
-        mPresenter.loadTemplates();
+        mPresenter.fetchTemplates();
     }
 
     @Override
     public void onSaveInstanceState(@NonNull Bundle outState) {
         super.onSaveInstanceState(outState);
-        TemplatesContract.State state = mPresenter.getState();
+        BaseContract.State state = mPresenter.getState();
         if (state != null) {
             outState.putParcelable(PRESENTER_STATE, state);
         }
@@ -101,21 +102,26 @@ public class TemplatesActivity extends AppCompatActivity
     }
 
     @Override
-    public void showTemplates(List<Template> templates) {
-        TemplatesAdapter adapter = new TemplatesAdapter(templates);
-        adapter.setOnTemplateListener(this);
-        mRvTemplates.setAdapter(adapter);
+    public void loadTemplates(@NonNull List<String> templatesUrls) {
+        List<Fragment> fragments = new ArrayList<>();
+        for (String url : templatesUrls) {
+            TemplateViewFragment fragment = TemplateViewFragment.newInstance(url);
+            fragments.add(fragment);
+        }
+
+        mTemplatesPager.setAdapter(new ViewPagerAdapter(
+                getSupportFragmentManager(), fragments));
     }
 
     @Override
     public void onTemplateChanged(Template template) {
         final int color = ColorUtils.parseColor(template.getColor());
-        mRvTemplates.setBackgroundColor(color);
+        mTemplatesPager.setBackgroundColor(color);
         getWindow().setStatusBarColor(color);
     }
 
     @Override
-    public void onItemClicked(Template template) {
+    public void onTemplateChosen(Template template) {
         final String message = String.format(
                 Locale.getDefault(),
                 getString(R.string.template_chosen),
@@ -125,17 +131,23 @@ public class TemplatesActivity extends AppCompatActivity
         Toast.makeText(this, message, Toast.LENGTH_LONG).show();
     }
 
-    private void setUpRecyclerView() {
+    private void setUpViewPager() {
         final int size = getResources()
-                .getDimensionPixelSize(R.dimen.recycler_view_divider_size);
+                .getDimensionPixelSize(R.dimen.view_pager_divider_size);
+        mTemplatesPager.setPageMargin(size);
 
-        mRvTemplates.addItemDecoration(new TemplatesDecoration(size));
-        mRvTemplates.setLayoutManager(new LinearLayoutManager(this,
-                RecyclerView.HORIZONTAL, false));
-        mRvTemplates.setHasFixedSize(false);
-
-        new PagerSnapHelper()
-                .attachToRecyclerView(mRvTemplates);
+        mTemplatesPager.addOnPageChangeListener(new ViewPager.SimpleOnPageChangeListener() {
+            @Override
+            public void onPageSelected(int position) {
+                ViewPagerAdapter adapter = (ViewPagerAdapter) mTemplatesPager.getAdapter();
+                if (adapter != null) {
+                    Fragment fragment = adapter.getItem(position);
+                    if (fragment instanceof FragmentLifecycle) {
+                        ((FragmentLifecycle) fragment).onVisible();
+                    }
+                }
+            }
+        });
     }
 
     private void restoreViewState(Bundle state) {

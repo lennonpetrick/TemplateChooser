@@ -26,21 +26,23 @@
                 android:layout_width="0dp"
                 android:layout_height="0dp"
                 android:scaleType="fitStart"
-                android:src="@drawable/ic_launcher_background"
                 app:layout_constraintBottom_toTopOf="@+id/rvVariations"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toTopOf="parent"
+                tools:src="@drawable/ic_launcher_background" />
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/rvVariations"
                 android:layout_width="0dp"
                 android:layout_height="@dimen/container_variations_height"
                 android:scrollbars="horizontal"
+                android:nestedScrollingEnabled="false"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                android:background="@color/variations_background"/>
+                android:background="@color/variations_background"
+                tools:listitem="@layout/layout_variation_adapter"/>
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

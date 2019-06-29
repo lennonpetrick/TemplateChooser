@@ -1,13 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <!-- TEMPLATES ACTIVITY -->
-    <dimen name="recycler_view_divider_size">15dp</dimen>
-    <dimen name="recycler_view_padding">30dp</dimen>
+    <dimen name="view_pager_divider_size">20dp</dimen>
+    <dimen name="view_pager_padding">40dp</dimen>
 
     <!-- TEMPLATES ADAPTER -->
     <dimen name="container_variations_height">60dp</dimen>
     <dimen name="template_name_padding">20dp</dimen>
-
 
     <!-- TEXT VIEW STYLES -->
     <dimen name="text_size">20sp</dimen>

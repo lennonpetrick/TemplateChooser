@@ -5,20 +5,19 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".presentation.TemplatesActivity">
+    tools:context=".presentation.templates.TemplatesActivity">
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rvTemplates"
+    <androidx.viewpager.widget.ViewPager
+        android:id="@+id/templatesPager"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:paddingTop="?android:attr/actionBarSize"
-        android:paddingStart="@dimen/recycler_view_padding"
-        android:paddingEnd="@dimen/recycler_view_padding"
+        android:paddingStart="@dimen/view_pager_padding"
+        android:paddingEnd="@dimen/view_pager_padding"
         android:clipToPadding="false"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        tools:listitem="@layout/layout_template_adapter"/>
+        app:layout_constraintEnd_toEndOf="parent"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

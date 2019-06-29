@@ -1,9 +1,9 @@
-package com.test.templatechooser.presentation;
+package com.test.templatechooser.presentation.templates;
 
 import androidx.annotation.NonNull;
 
-import com.test.templatechooser.domain.models.Template;
-import com.test.templatechooser.domain.usecase.GetTemplates;
+import com.test.templatechooser.domain.usecase.FetchTemplates;
+import com.test.templatechooser.presentation.base.BaseContract;
 
 import java.util.List;
 
@@ -13,49 +13,50 @@ import io.reactivex.observers.DisposableSingleObserver;
 
 public class TemplatesPresenter implements TemplatesContract.Presenter {
 
-    private final GetTemplates mGetTemplates;
+    private final FetchTemplates mFetchTemplates;
 
     private TemplatesContract.View mView;
 
     @Inject
-    public TemplatesPresenter(@NonNull GetTemplates useCase) {
-        mGetTemplates = useCase;
+    public TemplatesPresenter(@NonNull FetchTemplates useCase) {
+        mFetchTemplates = useCase;
     }
 
     @Override
-    public void setView(TemplatesContract.View view) {
+    public void setView(@NonNull TemplatesContract.View view) {
         mView = view;
     }
 
     @Override
-    public TemplatesContract.State getState() {
+    public BaseContract.State getState() {
         return null;
     }
 
     @Override
-    public void restoreState(TemplatesContract.State state) {
+    public void restoreState(BaseContract.State state) {
 
     }
 
     @Override
     public void destroy() {
+        mFetchTemplates.dispose();
         mView = null;
     }
 
     @Override
-    public void loadTemplates() {
+    public void fetchTemplates() {
         getTemplates();
     }
 
     private void getTemplates() {
         mView.showLoading();
-        mGetTemplates
+        mFetchTemplates
                 .execute(null)
                 .doFinally(() -> mView.hideLoading())
-                .subscribe(new DisposableSingleObserver<List<Template>>() {
+                .subscribe(new DisposableSingleObserver<List<String>>() {
                     @Override
-                    public void onSuccess(List<Template> templates) {
-                        mView.showTemplates(templates);
+                    public void onSuccess(List<String> templatesUrls) {
+                        mView.loadTemplates(templatesUrls);
                     }
 
                     @Override

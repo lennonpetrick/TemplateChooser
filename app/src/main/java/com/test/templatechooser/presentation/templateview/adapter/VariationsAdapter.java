@@ -1,4 +1,4 @@
-package com.test.templatechooser.presentation.adapter;
+package com.test.templatechooser.presentation.templateview.adapter;
 
 import android.view.View;
 
