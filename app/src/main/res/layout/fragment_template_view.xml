@@ -8,7 +8,6 @@
     tools:background="@color/colorPrimary">
 
     <androidx.cardview.widget.CardView
-        android:id="@+id/previewContent"
         android:layout_width="0dp"
         android:layout_height="0dp"
         app:layout_constraintBottom_toTopOf="@+id/tvTemplateName"
@@ -26,25 +25,45 @@
                 android:layout_width="0dp"
                 android:layout_height="0dp"
                 android:scaleType="fitStart"
-                app:layout_constraintBottom_toTopOf="@+id/rvVariations"
+                app:layout_constraintBottom_toTopOf="@+id/container_variations"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 tools:src="@drawable/ic_launcher_background" />
 
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/rvVariations"
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/container_variations"
                 android:layout_width="0dp"
                 android:layout_height="@dimen/container_variations_height"
-                android:scrollbars="horizontal"
-                android:nestedScrollingEnabled="false"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                android:background="@color/variations_background"
-                tools:listitem="@layout/layout_variation_adapter"/>
+                android:background="@color/variations_background">
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/rvVariations"
+                    android:layout_width="wrap_content"
+                    android:layout_height="0dp"
+                    android:nestedScrollingEnabled="false"
+                    android:scrollbars="horizontal"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="1.0"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    tools:listitem="@layout/layout_variation_adapter" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
 
         </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <ProgressBar
+            android:id="@+id/previewProgress"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:indeterminate="false"
+            android:visibility="gone"/>
 
     </androidx.cardview.widget.CardView>
 

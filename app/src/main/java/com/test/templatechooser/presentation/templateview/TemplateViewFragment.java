@@ -8,6 +8,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -17,6 +18,7 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
 import com.test.templatechooser.R;
 import com.test.templatechooser.domain.models.Template;
@@ -41,6 +43,7 @@ public class TemplateViewFragment extends Fragment
     @BindView(R.id.ivPreview) ImageView mIvPreview;
     @BindView(R.id.tvTemplateName) TextView mTvTemplateName;
     @BindView(R.id.rvVariations) RecyclerView mRvVariations;
+    @BindView(R.id.previewProgress) ProgressBar mPreviewProgress;
 
     private Template mCurrentTemplate;
     private String mTemplateUrl;
@@ -128,10 +131,14 @@ public class TemplateViewFragment extends Fragment
     }
 
     @Override
-    public void showLoading() {}
+    public void showLoading() {
+        mPreviewProgress.setVisibility(View.VISIBLE);
+    }
 
     @Override
-    public void hideLoading() {}
+    public void hideLoading() {
+        mPreviewProgress.setVisibility(View.GONE);
+    }
 
     @Override
     public void showError(String message) {
@@ -152,17 +159,8 @@ public class TemplateViewFragment extends Fragment
         }
 
         mTvTemplateName.setText(template.getName());
-
-        Picasso.get()
-                .load(template.getPreviewUrl())
-                .into(mIvPreview);
-
-        VariationsAdapter adapter = new VariationsAdapter(template);
-        adapter.setOnItemListener(item -> {
-            displayTemplate(item);
-            notifyTemplateChanged();
-        });
-        mRvVariations.setAdapter(adapter);
+        loadImagePreview(template.getPreviewUrl());
+        loadVariations(template);
     }
 
     private void setUpViews() {
@@ -178,6 +176,33 @@ public class TemplateViewFragment extends Fragment
         mRvVariations.setLayoutManager(new LinearLayoutManager(getContext(),
                 RecyclerView.HORIZONTAL, false));
         mRvVariations.setHasFixedSize(true);
+    }
+
+    private void loadImagePreview(String url) {
+        showLoading();
+        Picasso.get()
+                .load(url)
+                .placeholder(mIvPreview.getDrawable())
+                .into(mIvPreview, new Callback() {
+                    @Override
+                    public void onSuccess() {
+                        hideLoading();
+                    }
+
+                    @Override
+                    public void onError(Exception e) {
+                        showError(e.getMessage());
+                    }
+                });
+    }
+
+    private void loadVariations(Template template) {
+        VariationsAdapter adapter = new VariationsAdapter(template);
+        adapter.setOnItemListener(item -> {
+            displayTemplate(item);
+            notifyTemplateChanged();
+        });
+        mRvVariations.setAdapter(adapter);
     }
 
     private void restoreViewState(Bundle state) {

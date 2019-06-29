@@ -24,7 +24,7 @@ public class ColorUtils {
                     StringUtils.repeat(colorString.substring(3, 4), 2);
         }
 
-        return Color.parseColor(colorString);
+        return darkenColor(Color.parseColor(colorString));
     }
 
     /**
@@ -36,6 +36,19 @@ public class ColorUtils {
     public static ColorStateList parseToColorStateList(String colorString) {
         int color = parseColor(colorString);
         return ColorStateList.valueOf(color);
+    }
+
+    /**
+     * Darken 20% of a color.
+     *
+     * @param color Color value.
+     * @return Darker color value.
+     * */
+    public static int darkenColor(int color) {
+        final float[] hsv = new float[3];
+        Color.colorToHSV(color, hsv);
+        hsv[2] *= 0.8f;
+        return Color.HSVToColor(hsv);
     }
 
 }

@@ -43,20 +43,48 @@ public class TemplateViewPresenter implements TemplateViewContract.Presenter {
 
     @Override
     public void getTemplate(String url) {
-        mView.showLoading();
+        showLoading();
         mGetTemplate
                 .execute(GetTemplate.Params.forUrl(url))
-                .doFinally(() -> mView.hideLoading())
+                .doFinally(this::hideLoading)
                 .subscribe(new DisposableSingleObserver<Template>() {
                     @Override
                     public void onSuccess(Template template) {
-                        mView.displayTemplate(template);
+                        displayTemplate(template);
                     }
 
                     @Override
                     public void onError(Throwable e) {
-                        mView.showError(e.getMessage());
+                        showError(e.getMessage());
                     }
                 });
+    }
+
+    private void displayTemplate(Template template) {
+        if (mView == null)
+            return;
+
+        mView.displayTemplate(template);
+    }
+
+    private void showLoading() {
+        if (mView == null)
+            return;
+
+        mView.showLoading();
+    }
+
+    private void hideLoading() {
+        if (mView == null)
+            return;
+
+        mView.hideLoading();
+    }
+
+    private void showError(String message) {
+        if (mView == null)
+            return;
+
+        mView.showError(message);
     }
 }

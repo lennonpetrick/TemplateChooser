@@ -117,7 +117,7 @@ public class TemplatesActivity extends AppCompatActivity
     public void onTemplateChanged(Template template) {
         final int color = ColorUtils.parseColor(template.getColor());
         mTemplatesPager.setBackgroundColor(color);
-        getWindow().setStatusBarColor(color);
+        getWindow().setStatusBarColor(ColorUtils.darkenColor(color));
     }
 
     @Override
