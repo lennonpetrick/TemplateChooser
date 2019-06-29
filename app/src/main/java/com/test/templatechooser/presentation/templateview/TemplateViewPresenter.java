@@ -42,7 +42,10 @@ public class TemplateViewPresenter implements TemplateViewContract.Presenter {
 
     @Override
     public void destroy() {
+        mGetTemplate.dispose();
         mView = null;
+        mTemplateUrl = null;
+        mTemplate = null;
     }
 
     @Override
