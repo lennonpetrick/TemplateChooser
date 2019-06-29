@@ -7,13 +7,23 @@
     android:layout_height="match_parent"
     tools:background="@color/colorPrimary">
 
+    <TextView
+        style="@style/TextViewStyle.TemplateName"
+        android:id="@+id/tvTemplateName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="@dimen/template_name_padding"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="Amsterdam" />
+
     <androidx.cardview.widget.CardView
         android:layout_width="0dp"
         android:layout_height="0dp"
-        app:layout_constraintBottom_toTopOf="@+id/tvTemplateName"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tvTemplateName"
         app:cardBackgroundColor="@color/preview_background">
 
         <androidx.constraintlayout.widget.ConstraintLayout
@@ -24,35 +34,35 @@
                 android:id="@+id/ivPreview"
                 android:layout_width="0dp"
                 android:layout_height="0dp"
-                android:scaleType="fitStart"
-                app:layout_constraintBottom_toTopOf="@+id/container_variations"
-                app:layout_constraintEnd_toEndOf="parent"
+                android:scaleType="centerCrop"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/container_variations"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 tools:src="@drawable/ic_launcher_background" />
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/container_variations"
-                android:layout_width="0dp"
-                android:layout_height="@dimen/container_variations_height"
+                android:layout_width="@dimen/container_variations_height"
+                android:layout_height="0dp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
                 android:background="@color/variations_background">
 
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/rvVariations"
-                    android:layout_width="wrap_content"
-                    android:layout_height="0dp"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
                     android:nestedScrollingEnabled="false"
-                    android:scrollbars="horizontal"
+                    android:orientation="vertical"
+                    android:scrollbars="vertical"
                     app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-                    android:orientation="horizontal"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintHorizontal_bias="1.0"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintVertical_bias="0.0"
                     tools:listitem="@layout/layout_variation_adapter" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
@@ -68,16 +78,4 @@
             android:visibility="gone"/>
 
     </androidx.cardview.widget.CardView>
-
-    <TextView
-        style="@style/TextViewStyle.TemplateName"
-        android:id="@+id/tvTemplateName"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:padding="@dimen/template_name_padding"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        tools:text="Amsterdam" />
-
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- TEMPLATES ACTIVITY -->
+    <dimen name="view_pager_divider_size">50dp</dimen>
+    <dimen name="view_pager_padding">90dp</dimen>
+
+    <!-- TEMPLATES ADAPTER -->
+    <dimen name="container_variations_height">130dp</dimen>
+    <dimen name="template_name_padding">50dp</dimen>
+
+    <!-- TEXT VIEW STYLES -->
+    <dimen name="text_size">45sp</dimen>
+
+    <!-- VARIATION CIRCLE -->
+    <dimen name="variation_circle_size">90dp</dimen>
+    <dimen name="variation_circle_margin">11dp</dimen>
+    <dimen name="variation_circle_radius">32dp</dimen>
+    <dimen name="variation_circle_thickness">15dp</dimen>
+</resources>
