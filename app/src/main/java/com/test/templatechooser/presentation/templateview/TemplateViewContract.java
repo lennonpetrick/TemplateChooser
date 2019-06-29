@@ -9,10 +9,16 @@ public interface TemplateViewContract {
 
     interface View extends BaseContract.View {
         void displayTemplate(@NonNull Template template);
+        void notifyTemplateChosen(@NonNull Template template);
+        void notifyTemplateChanged(@NonNull Template template);
     }
 
     interface Presenter extends BaseContract.Presenter<View> {
-        void getTemplate(String url);
+        void setUrl(String url);
+        void onViewVisible();
+        void loadTemplate();
+        void chooseTemplate();
+        void selectVariation(Template template);
     }
 
 }

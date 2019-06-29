@@ -45,8 +45,6 @@ public class TemplateViewFragment extends Fragment
     @BindView(R.id.rvVariations) RecyclerView mRvVariations;
     @BindView(R.id.previewProgress) ProgressBar mPreviewProgress;
 
-    private Template mCurrentTemplate;
-    private String mTemplateUrl;
     private OnTemplateListener mListener;
 
     public static TemplateViewFragment newInstance(String templateUrl) {
@@ -74,7 +72,7 @@ public class TemplateViewFragment extends Fragment
         super.onCreate(savedInstanceState);
         Bundle bundle = getArguments();
         if (bundle != null) {
-            mTemplateUrl = bundle.getString(ARG_TEMPLATE_URL);
+            mPresenter.setUrl(bundle.getString(ARG_TEMPLATE_URL));
         }
     }
 
@@ -96,7 +94,7 @@ public class TemplateViewFragment extends Fragment
         }
 
         mPresenter.setView(this);
-        mPresenter.getTemplate(mTemplateUrl);
+        mPresenter.loadTemplate();
     }
 
     @Override
@@ -110,7 +108,9 @@ public class TemplateViewFragment extends Fragment
 
     @Override
     public void onVisible() {
-        notifyTemplateChanged();
+        if (mPresenter != null) {
+            mPresenter.onViewVisible();
+        }
     }
 
     @Override
@@ -126,8 +126,6 @@ public class TemplateViewFragment extends Fragment
         super.onDetach();
         mListener = null;
         mPresenter = null;
-        mCurrentTemplate = null;
-        mTemplateUrl = null;
     }
 
     @Override
@@ -153,9 +151,8 @@ public class TemplateViewFragment extends Fragment
 
     @Override
     public void displayTemplate(@NonNull Template template) {
-        mCurrentTemplate = template;
         if (isMenuVisible()) {
-            notifyTemplateChanged();
+            notifyTemplateChanged(template);
         }
 
         mTvTemplateName.setText(template.getName());
@@ -163,13 +160,22 @@ public class TemplateViewFragment extends Fragment
         loadVariations(template);
     }
 
+    @Override
+    public void notifyTemplateChosen(@NonNull Template template) {
+        if (mListener != null) {
+            mListener.onTemplateChosen(template);
+        }
+    }
+
+    @Override
+    public void notifyTemplateChanged(@NonNull Template template) {
+        if (mListener != null) {
+            mListener.onTemplateChanged(template);
+        }
+    }
+
     private void setUpViews() {
-        mIvPreview.setOnClickListener(v -> {
-            if (mListener != null
-                    && mCurrentTemplate != null) {
-                mListener.onTemplateChosen(mCurrentTemplate);
-            }
-        });
+        mIvPreview.setOnClickListener(v -> mPresenter.chooseTemplate());
     }
 
     private void setUpRecyclerView() {
@@ -198,23 +204,13 @@ public class TemplateViewFragment extends Fragment
 
     private void loadVariations(Template template) {
         VariationsAdapter adapter = new VariationsAdapter(template);
-        adapter.setOnItemListener(item -> {
-            displayTemplate(item);
-            notifyTemplateChanged();
-        });
+        adapter.setOnItemListener(item -> mPresenter.selectVariation(item));
         mRvVariations.setAdapter(adapter);
     }
 
     private void restoreViewState(Bundle state) {
         if (state.containsKey(PRESENTER_STATE)) {
             mPresenter.restoreState(state.getParcelable(PRESENTER_STATE));
-        }
-    }
-
-    private void notifyTemplateChanged() {
-        if (mListener != null
-                && mCurrentTemplate != null) {
-            mListener.onTemplateChanged(mCurrentTemplate);
         }
     }
 
