@@ -4,7 +4,7 @@ import com.google.gson.annotations.SerializedName;
 
 public class ScreenshotsEntity {
 
-    @SerializedName("medium")
+    @SerializedName("iphone")
     private String url;
 
     public String getUrl() {
